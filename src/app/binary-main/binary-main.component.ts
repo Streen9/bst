@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild,ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild,ViewEncapsulation } from '@angular/core';
 import { Injectable } from '@angular/core';
 // import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -68,17 +68,12 @@ export class BinaryMainComponent implements OnInit {
   previousMaxLevel: number=5;
   colorBack!:string;
   searchValue!:string;
-  // colorWhite:boolean = false
-  // treeStructure: TreeNode[] = [];
 
-  // constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     this.displayTree();
     this.checkLevel()
     this.getData()
-    // this.highlightTree()
-    // this.setMaxLevel(); 
   }
 
   getData(){
@@ -87,16 +82,16 @@ export class BinaryMainComponent implements OnInit {
     this.root = Response;
     
     this.displayTree();
-    // this.highlightTree()
-    //this.maxLevel = this.countLevels(this.root);
+
     if(this.root == null){
       this.rootFlag = true
     }
    })
-  //  console.log(data,'getting')
+
   }
 
   clearInput(){
+    if(this.root){
     if(confirm('Are you sure?')){
       this.root = null
       this.rootNode= null
@@ -104,6 +99,9 @@ export class BinaryMainComponent implements OnInit {
       this.postIntoJson()
       this.rootFlag = true
       console.log(this.root)
+    }}
+    else{
+      alert('No Tree is Existed!')
     }
   }
   displayTree() {
@@ -142,22 +140,18 @@ export class BinaryMainComponent implements OnInit {
     
   }
 
-  // bindDeleteEvent(element: HTMLElement): void {
-  //   const deleteBtns = element.querySelectorAll('.delete-btn');
-  //   deleteBtns.forEach(btn => {
-  //     btn.addEventListener('click', (event) => {
-  //       event.stopPropagation(); // Prevent the click event
-  //     });
-  //   });
-  // }
 
   removeElement(){
-    if(this.root)
-    this.root = this.deleteNode(this.root, this.deleteValue);
-    this.postIntoJson()
-    this.deleteValue = '' 
-    this.displayTraversals()
-    this.displayTree();
+    if(this.root){
+      this.root = this.deleteNode(this.root, this.deleteValue);
+      if(this.countLevels(this.root) === 0){
+        this.rootFlag = true
+      }
+      this.postIntoJson()
+      this.deleteValue = '' 
+      this.displayTraversals()
+      this.displayTree();
+    }
   }
   
 
@@ -188,6 +182,7 @@ export class BinaryMainComponent implements OnInit {
   deleteNode(root: Node | null, value: string): Node | null {
     if (!root) {
       this.displayPopup("Element not found in the tree.");
+      // this.rootFlag = true
       return root;
     }
   
@@ -247,12 +242,9 @@ export class BinaryMainComponent implements OnInit {
 
   // Function to display a popup message
 displayPopup(message: string): void {
-  // Replace this with your own popup implementation
   alert(message);
 }
 
-
-  
 
   //To display Tree dynamically by creating string and render with html class
   renderTree(node : Node|null):any{
@@ -263,7 +255,7 @@ displayPopup(message: string): void {
     const { value, left, right } = node;
   
     return `
-      <div class="nodeElement" nodeValue="${value}">${value}</div>
+      <div class="nodeElement" data-clickable onclick="handleclick(${value})" nodeValue="${value}">${value}</div>
       ${
         left!=null || right!=null
           ? `
@@ -290,24 +282,23 @@ displayPopup(message: string): void {
     `;
   }
 
-searchKey = 24;
+  //to delete the value on click the element
+  @HostListener('document:click', ['$event'])
+  handleDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const desiredElement = target.closest('[data-clickable]');
+  
+    if (desiredElement) {
+      console.log('Element is clicked');
+      console.log(desiredElement.getAttribute('nodeValue'));
+      if (confirm(`Are you sure you want to delete ${desiredElement.getAttribute('nodeValue')}?`)) {
+        this.deleteValue = desiredElement.getAttribute('nodeValue');
+        this.removeElement();
+      }
+    }
+  }
 
   
-  // setMaxLevel(event:Event){
-  //   const currentValue = parseInt((event.target as HTMLInputElement).value);
-  // this.previousMaxLevel = this.maxLevel;
-  // this.maxLevel = currentValue;
-
-  // if (this.previousMaxLevel !== undefined && this.maxLevel !== undefined) {
-  //   if (this.maxLevel > this.previousMaxLevel) {
-  //     console.log('Value is increasing.');
-  //   } else if (this.maxLevel < this.previousMaxLevel) {
-  //     console.log('Value is decreasing.');
-  //   } else {
-  //     console.log('Value remains the same.');
-  //   }
-  // }
-  // }
 
   setMaxLevel() {
     const currentLevelOfTree = this.countLevels(this.root)
@@ -420,9 +411,7 @@ searchKey = 24;
   displayTraversals() {
     if (this.root) {
       console.log(this.root)
-      //  this.printTree(this.root, 0);
-      // this.treeStructure = [];
-      // this.generateTreeStructure(this.root, 0, 0);
+
       if(this.selectedTraversal == 'inorder'){
         console.log('Inorder Traversal:');
         this.traversalList = []

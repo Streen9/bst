@@ -84,7 +84,7 @@
 
 <div class="container">
   <h2 class="tree_heaading ">Binary Search Tree</h2>
-  <div class="loader" *ngIf="root==null && !rootFlag"></div>
+  <div class="loader" *ngIf="root==null && rootFlag === false"></div>
   <h4 *ngIf="rootFlag" class="resultHead">No Tree Found</h4>
   <div class="tree col-md-12" #treeContainer></div>
 </div>
@@ -110,6 +110,8 @@
 
 
 
+
 <!-- <button (click)="displayTraversals()">Display Traversals</button> -->
 
 <!-- <div class="node nodeRoot"></div> -->
+
