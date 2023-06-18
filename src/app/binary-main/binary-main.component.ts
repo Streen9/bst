@@ -97,12 +97,14 @@ export class BinaryMainComponent implements OnInit {
   }
 
   clearInput(){
-    this.root = null
-    this.rootNode= null
-    this.displayTree();
-    this.postIntoJson()
-    this.rootFlag = true
-    console.log(this.root)
+    if(confirm('Are you sure?')){
+      this.root = null
+      this.rootNode= null
+      this.displayTree();
+      this.postIntoJson()
+      this.rootFlag = true
+      console.log(this.root)
+    }
   }
   displayTree() {
 
