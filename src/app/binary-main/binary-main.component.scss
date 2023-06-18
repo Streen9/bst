@@ -127,6 +127,12 @@ html,body{
   line-height: 30px;
   font-size: 16px;
   color: #fff;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.nodeElement:hover{
+  overflow: visible;
 }
 .nodeLeft{
   margin-right: 20px;
