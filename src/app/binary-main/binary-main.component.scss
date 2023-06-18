@@ -166,11 +166,7 @@ body {
     flex-direction: column;
     // align-items: flex-start;
   }
-
-  .node:not(.nodeRoot) .nodeElement::before {
-    // display: none;
-  }
-
+  
   .nodeChild {
     padding: 0;
   }
