@@ -36,18 +36,16 @@ export class BinaryMainComponent implements OnInit {
   searchValue!: string;
 
   /**
-   * ngOnInit()
-   * Angular lifecycle hook called after the component is initialized.
-   * It calls the `displayTree()` ` methods and retrieves data from an API using `getData()`.
+   * The ngOnInit function calls the displayTree and getData functions.
    */
   ngOnInit() {
     this.displayTree();
     this.getData();
   }
+
   /**
-   * getData()
-   * Retrieves the binary tree data from an API using the Angular `HttpClient` and assigns the response to the `root` property.
-   * If the `root` is `null`, it sets the `rootFlag` to `true`.
+   * The function retrieves data from a specified URL and logs the response, sets the retrieved data as
+   * the root, displays a tree, and sets a flag if the root is null.
    */
   getData() {
     const data = this.http
@@ -63,11 +61,10 @@ export class BinaryMainComponent implements OnInit {
         }
       });
   }
+
   /**
-   * clearInput()
-   * Clears the input values and resets the binary tree.
-   * If the user confirms the action, it sets the `root` to `null`, `rootNode` to `null`, and `rootFlag` to `true`.
-   * It also calls the `displayTree()` and `postIntoJson()` methods.
+   * This function clears the input by setting the root and rootNode to null and displaying an alert if
+   * no tree exists.
    */
   clearInput() {
     if (this.root) {
@@ -85,9 +82,8 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * displayTree()
-   * Renders and displays the binary tree in the DOM.
-   * It uses the `renderTree()` method to generate the HTML content and updates the `treeContainer` element.
+   * This function renders a tree by setting the innerHTML of a container element with the result of
+   * calling a renderTree function on the root node.
    */
   displayTree() {
     //to render tree
@@ -98,21 +94,16 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * searchElement()
-   * Searches for a given value in the binary tree and highlights the corresponding node in the DOM by adding a CSS class.
-   * It calls the `highlightTree()` method.
+   * The function calls the highlightTree method with a search value as a parameter.
    */
   searchElement() {
     this.highlightTree(this.searchValue);
   }
 
   /**
-   * highlightTree(value: string)
-   * Highlights a node with the specified value by adding a CSS class.
-   * It selects the element using the value attribute and adds the `highlight` class.
-   * After a delay of 2 seconds, it removes the `highlight` class.
+   * This function highlights a specific element in a tree structure for a brief period of time.
+   * @param {string} value - a string representing the value of a node in a tree data structure.
    */
-
   highlightTree(value: string) {
     const element = document.querySelector(
       '.nodeElement[nodevalue="' + value + '"]'
@@ -123,24 +114,23 @@ export class BinaryMainComponent implements OnInit {
     }, 2000);
   }
 
-  /**HighMin()
-   * Highlight the Minimum Character in the tree
+  /**
+   * The function highlights the node with the minimum value in a binary search tree.
    */
-
   highMin() {
     this.highlightTree(this.findMinValue(this.root));
   }
-  /**HighMax()
-   * Highlight the Maximum Character in the tree
+
+  /**
+   * The function highlights the node with the highest value in a binary tree.
    */
   highMax() {
     this.highlightTree(this.findMaxValue(this.root));
   }
 
   /**
-   * deleteElement(value: string)
-   * Deletes a node with the specified value from the binary tree.
-   * It calls the `deleteNode()` method and updates the tree by calling `displayTree()`.
+   * The function deletes a node with a given value from a tree and displays the updated tree.
+   * @param {string} value - string - the value of the node that needs to be deleted from the tree.
    */
   deleteElement(value: string): void {
     console.log('deleting');
@@ -148,9 +138,9 @@ export class BinaryMainComponent implements OnInit {
     this.displayTree();
   }
 
-  /**removeElement()
-   * The removeElement method removes a node with the specified value from the binary tree.
-   * It calls the deleteNode method, updates the tree, and checks if the root is null to set the rootFlag accordingly. */
+  /**
+   * The function removes a node from a binary search tree and updates the tree's display.
+   */
   removeElement() {
     if (this.root) {
       this.root = this.deleteNode(this.root, this.deleteValue);
@@ -164,10 +154,10 @@ export class BinaryMainComponent implements OnInit {
     }
   }
 
-  /**onSubmit()
-   * The onSubmit method is triggered when a form is submitted to
-   * add a new node to the binary tree. It creates a new Node instance
-   * and adds it to the tree using the addNode method. */
+  /**
+   * This function checks if a valid number is entered, creates a new node and adds it to the tree if
+   * valid, and displays the updated tree and traversals.
+   */
   onSubmit() {
     console.log(this.rootNode, 'nodes');
     const trimmedValue = this.rootNode.trim();
@@ -190,12 +180,14 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * deleteNode(node: Node | null, value: string)
-   * Deletes a node with the specified value from the binary tree.
-   * It recursively traverses the tree to find the node to delete and performs the deletion.
-   * It updates the `root` property if the root node is deleted.
+   * This function deletes a node with a given value from a binary search tree.
+   * @param {Node | null} root - The root node of the binary search tree from which a node with the
+   * given value needs to be deleted.
+   * @param {string} value - The value of the node that needs to be deleted from the binary search
+   * tree.
+   * @returns the updated root node of the binary search tree after deleting the node with the given
+   * value.
    */
-
   deleteNode(root: Node | null, value: string): Node | null {
     if (!root) {
       this.displayPopup('Element not found in the tree.');
@@ -237,7 +229,13 @@ export class BinaryMainComponent implements OnInit {
     return root;
   }
 
-  //find the minimum value in a BST
+  /**
+   * This function finds the minimum value in a binary tree starting from the root node.
+   * @param {Node | null} root - Node object representing the root of a binary search tree. The
+   * function is intended to find and return the minimum value in the tree.
+   * @returns The minimum value of the binary search tree rooted at the given `root` node is being
+   * returned as a string.
+   */
   findMinValue(root: Node | null): string {
     let minValue = root!.value;
     while (root && root.left) {
@@ -247,7 +245,13 @@ export class BinaryMainComponent implements OnInit {
     return minValue;
   }
 
-  //find the maximum value in a BST
+  /**
+   * This function finds and returns the maximum value in a binary tree.
+   * @param {Node | null} root - Node object representing the root of a binary search tree. The function
+   * is intended to find and return the maximum value in the tree.
+   * @returns The maximum value in a binary search tree rooted at the given `root` node is being
+   * returned as a string.
+   */
   findMaxValue(root: Node | null): string {
     let maxValue = root!.value;
     while (root && root.right) {
@@ -257,15 +261,20 @@ export class BinaryMainComponent implements OnInit {
     return maxValue;
   }
 
-  // Function to display a popup message
   displayPopup(message: string): void {
     alert(message);
   }
 
   /**
-   * renderTree(node: Node | null)
-   * Recursively generates the HTML content for the binary tree starting from the specified `node`.
-   * It returns the HTML content as a string.
+   * This function renders a binary tree structure as HTML elements.
+   * @param {Node | null} node - The node parameter is of type Node or null, which represents a node in
+   * a binary tree data structure. It contains a value and references to its left and right child nodes.
+   * The renderTree function recursively renders the binary tree starting from the given node.
+   * @returns A string containing HTML code representing a binary tree with clickable nodes. The HTML
+   * code is generated recursively based on the input `node` parameter, which is an object representing
+   * a node in the binary tree. The function uses template literals to generate the HTML code, and
+   * includes conditional statements to check if the left and/or right child nodes exist, and if so,
+   * recursively calls the `renderTree` function to
    */
   renderTree(node: Node | null): any {
     if (!node) {
@@ -306,7 +315,11 @@ export class BinaryMainComponent implements OnInit {
     `;
   }
 
-  //to delete the value on click the element
+  /* The above code is a TypeScript function that listens for a click event on the document. When a
+  click event occurs, it checks if the clicked element has a "data-clickable" attribute. If it does,
+  it retrieves the value of the "nodeValue" attribute of the clicked element and prompts the user to
+  confirm if they want to delete the element. If the user confirms, it sets the "deleteValue"
+  property to the value of the "nodeValue" attribute and calls the "removeElement" function. */
   @HostListener('document:click', ['$event'])
   handleDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
@@ -329,11 +342,9 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * SetMaxLevel()
-   * with comparing the previous maxvalue it setting the current maxvalue for tree to rendered.
-   * and the maxDepath of the tree is 10
+   * The function sets the maximum level of a tree and checks if it is valid, and enables or disables
+   * adding nodes based on the current level of the tree.
    */
-
   setMaxLevel() {
     const currentLevelOfTree = this.countLevels(this.root);
     if (this.previousMaxLevel !== undefined && this.maxLevel !== undefined) {
@@ -363,11 +374,12 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * checkFlag(event:Event)
-   * Checking the flag to set true or false by Tree childern
-   * In the depath if the childern can be stored it can enable 
-   * if the root goes more than maxDeapth then it controls the button
-   * by calling checkButtonFlag
+   * The function checks a flag based on the value of an HTML input element and creates a new node with
+   * that value.
+   * @param {Event} event - Event is a parameter that represents an event that has occurred, such as a
+   * mouse click or a keyboard press. It is commonly used in web development to handle user
+   * interactions with a webpage. In this specific code snippet, the event parameter is used to get the
+   * value of an HTML input element that triggered the
    */
   checkFlag(event: Event) {
     const checkValue = (event.target as HTMLInputElement).value;
@@ -376,6 +388,18 @@ export class BinaryMainComponent implements OnInit {
     if (this.root) this.checkButtonFlag(this.root, newNode);
   }
 
+  /**
+   * The function checks if a new node can be added to a binary tree based on its value and the maximum
+   * level allowed.
+   * @param {Node} root - The root parameter is a Node object representing the root node of a binary
+   * search tree.
+   * @param {Node} newNode - A Node object representing the new node to be added to the binary search
+   * tree.
+   * @param {number} [level=1] - The level parameter is a number that represents the current level of
+   * the binary tree being traversed. It is used to keep track of the depth of the tree and to limit
+   * the maximum number of levels that can be added to the tree.
+   * @returns The function does not have a return statement, so it returns undefined.
+   */
   checkButtonFlag(root: Node, newNode: Node, level: number = 1) {
     if (level >= this.maxLevel) {
       console.log('Maximum levels reached. Cannot add more nodes.');
@@ -405,11 +429,15 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * addNode(root :Node, newNode:Node, level:number =1 )
-   * adding the node by checking the level of tree if it reached it shows popup which is reacched max level
-   * if not it checking wheather the value is smaller ot larger
-   * if smaller it calling addnode with left root
-   * if larger it caling addnode with rightroot 
+   * This function adds a new node to a binary tree, checking if the value already exists and alerting
+   * if the maximum level is reached.
+   * @param {Node} root - The root node of the binary search tree.
+   * @param {Node} newNode - The node that needs to be added to the binary search tree.
+   * @param {number} [level=1] - The level parameter is used to keep track of the current level of the
+   * binary search tree while traversing it. It is an optional parameter with a default value of 1.
+   * @returns If the function reaches the maximum level, it will return nothing (undefined). If the
+   * value being added already exists in the tree, it will also return nothing. Otherwise, it will add
+   * the new node to the tree and call the `postIntoJson()` method, but it will not return anything.
    */
   addNode(root: Node, newNode: Node, level: number = 1) {
     if (level >= this.maxLevel) {
@@ -432,16 +460,18 @@ export class BinaryMainComponent implements OnInit {
         this.addNode(root.right, newNode, level + 1);
       }
     } else {
-      alert('Value is already existed')
+      alert('Value is already existed');
     }
   }
 
   /**
-   * postIntoJson()
-   * Retrieves the binary tree data from an API using the Angular `HttpClient` and assigns the response to the `root` property.
-   * If the `root` is `null`, it sets the `rootFlag` to `true`.
+   * This function sends a POST request to a specified URL with data in JSON format and logs the
+   * response.
+   * @returns The `postIntoJson()` function is returning a subscription object from the `http.post()`
+   * method. However, since the function is not returning the subscription object directly, but rather it
+   * is being returned from within the `subscribe()` method, the actual return value of the function is
+   * `undefined`.
    */
-
   postIntoJson() {
     console.log(this.root, 'data');
     return this.http
@@ -452,10 +482,10 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * displayTraversals()
-   * Checking the variable with which order needs to be called by passing the argument value
-   * before calling the traversal its making  inOrderTraversal list empty to store the new values
+   * This function displays the selected traversal of a binary tree, if it exists, and logs an error
+   * message if the root node does not exist.
    */
+
   displayTraversals() {
     if (this.root) {
       console.log(this.root);
@@ -490,9 +520,13 @@ export class BinaryMainComponent implements OnInit {
   // }
 
   /**
-   * inOrderTraversal(node:Node | null)
-   * Methods which returns the tree in form of inorder practise
+   * This function performs an inorder traversal of a binary tree and logs the node values to the
+   * console.
+   * @param {Node | null} node - The parameter `node` is of type `Node | null`, which means it can either
+   * be a `Node` object or `null`. This function is used to traverse a binary tree in an inorder manner,
+   * which means it visits the left subtree, then the root node, and then the right subtree
    */
+
   inorderTraversal(node: Node | null) {
     if (node) {
       this.inorderTraversal(node.left);
@@ -503,10 +537,12 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * preOrderTraversal(node:Node | null)
-   * Methods which returns the tree in form of preorder practise
+   * This function performs a preorder traversal of a binary tree and logs the node values to the
+   * console while also adding them to a traversal list.
+   * @param {Node | null} node - The parameter `node` is a reference to a binary tree node. It can
+   * either be a valid node object or `null`. The function `preorderTraversal` performs a preorder
+   * traversal of the binary tree starting from the given node.
    */
-
   preorderTraversal(node: Node | null) {
     if (node) {
       console.log(node.value);
@@ -517,8 +553,9 @@ export class BinaryMainComponent implements OnInit {
   }
 
   /**
-   * postOrderTraversal(node:Node | null)
-   * Methods which returns the tree in form of postorder practise
+   * This function performs a postorder traversal of a binary tree and logs the node values in the
+   * console.
+   * @param {Node | null} node - Node object or null value.
    */
   postorderTraversal(node: Node | null) {
     if (node) {
@@ -529,16 +566,10 @@ export class BinaryMainComponent implements OnInit {
     }
   }
 
-  //To check the current level of tree by calling the countLevel() function
-  checkLevel() {
-    console.log('level of tree is : ', this.countLevels(this.root));
-  }
-  /**
-   * 
-   * countLevels(node:Node |null, level) 
-   * the countLevel is couting the current tree deapth
-   * returns the number
-   */
+  /* The above code is a method in a TypeScript class that counts the number of levels in a binary tree.
+ It takes in a node and a level (which is optional and defaults to 0) as parameters. It recursively
+ traverses the left and right subtrees of the node and returns the maximum level between the left
+ and right subtrees. If the node is null, it returns the current level. */
   countLevels(node: Node | null, level: number = 0): number {
     if (!node) {
       return level;
@@ -550,14 +581,9 @@ export class BinaryMainComponent implements OnInit {
     return Math.max(leftLevel, rightLevel);
   }
 }
-/**
- * defining Node with attributes
- * {
- * value:string,
- * left:Node|null,
- * right:Node|null,
- * }
- */
+
+/* The class Node represents a node in a binary tree with a string value and left and right child
+nodes. */
 class Node {
   constructor(public value: string) {
     this.left = null;
