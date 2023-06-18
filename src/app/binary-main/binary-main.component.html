@@ -56,6 +56,14 @@
         </select>
       </div>
     </div>
+    
+    <div class="col-md-3 col-8">
+      <div class="mb-3">
+        <label for="maxLevelInput" class="form-label">Max Level:</label>
+        <input type="number" pattern="^-?\d+$" name="maxLevel1" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" (ngModelChange)="setMaxLevel()" />
+        <!-- <input type="number" name="maxLevel1" (change)="setMaxLevel($event)" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" /> -->
+      </div>
+    </div>
     <div class="col-md-2 col-4">
       <div class="mb-3">
         <label class="form-label">Find Min : </label>
@@ -68,14 +76,6 @@
         <button class="btn btn-outline-success" style="width: 80%;" type="button" (click)="highMax()">Min</button>
       </div>
     </div>
-    <div class="col-md-3">
-      <div class="mb-3">
-        <label for="maxLevelInput" class="form-label">Max Level:</label>
-        <input type="number" pattern="^-?\d+$" name="maxLevel1" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" (ngModelChange)="setMaxLevel()" />
-        <!-- <input type="number" name="maxLevel1" (change)="setMaxLevel($event)" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" /> -->
-      </div>
-    </div>
-    
   </div>
 </div>
 
@@ -92,7 +92,7 @@
 <div class="container orderContainer" *ngIf="selectedTraversal != ''">
   <div *ngIf="selectedTraversal == 'inorder'" class="order">In Order :</div>
   <div *ngIf="selectedTraversal == 'preorder'" class="order">Pre Order :</div>
-  <div *ngIf="selectedTraversal == 'postorder'" ]class="order">Post Order :</div>
+  <div *ngIf="selectedTraversal == 'postorder'" class="order">Post Order :</div>
   <span *ngFor="let value of traversalList" ><p class="orderValue">{{value}}</p> </span>
 </div>
 
