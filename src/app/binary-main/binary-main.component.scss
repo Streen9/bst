@@ -183,3 +183,12 @@ body {
     margin: 12px 0;
   }
 }
+
+@media (max-width:600px){
+  .loader{
+    top: 50%;
+  left: 36%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  }
+}
