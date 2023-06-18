@@ -191,7 +191,6 @@ export class BinaryMainComponent implements OnInit {
   deleteNode(root: Node | null, value: string): Node | null {
     if (!root) {
       this.displayPopup('Element not found in the tree.');
-      this.rootFlag = true;
       return root;
     }
 
