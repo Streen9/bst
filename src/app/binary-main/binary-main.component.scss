@@ -1,0 +1,136 @@
+html,body{
+  background-color: #0f0f0f;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.resultHead{
+  text-align: center;
+}
+.loader {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  position: relative;
+  text-align: center;
+  left: 40%;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.tree_heaading{
+  text-align: center;
+  margin-top: 20px;
+}
+.btnDelete{
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+}
+.tree{
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.node{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 12px;
+  position: relative;
+  color: #fff;
+  max-width: max-content;
+}
+// except .noderoot class
+.node:not(.nodeRoot) .nodeElement::before{
+  content: '';
+  height: 12px;
+  width: 1px;
+  background-color: #fff;
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -12px;
+  margin: auto;
+}
+.tree>.nodeElement::after{
+  content: "i'm root";
+  position: relative;
+  color: #fff;
+  display: block;
+  left: 60px;
+  width: 60px;
+  top:-30px;
+  // transform: rotateX(30deg);
+}
+#colorAdd{
+  background-color: white;
+  color: black;
+}
+.nodeElement{
+  width: 60px;
+  height: 60px;
+  background-color: #078513;
+  border-radius: 50%;
+  text-align: center;
+  padding: 14px 10px;
+  line-height: 30px;
+  font-size: 16px;
+  color: #fff;
+}
+.nodeLeft{
+  margin-right: 20px;
+}
+.nodeRight{
+  margin-left: 20px;
+}
+.nodeChild{
+  display: flex;
+  padding: 12px;
+  border-top: 1px solid #fff;
+}
+
+.nodeBottomLine{
+  height: 12px;
+  width: 1px;
+  background-color: #fff;
+}
+
+@media (max-width: 768px) {
+  .tree {
+    flex-direction: column;
+    // align-items: flex-start;
+
+  }
+
+  .node:not(.nodeRoot) .nodeElement::before {
+    // display: none;
+  }
+
+  .nodeChild{
+    padding: 0;
+  }
+  
+
+  .tree > .nodeElement::after {
+    left: 50px;
+    top: -31px;
+    // transform: none;
+    // transform: none;
+  }
+
+  .nodeLeft,
+  .nodeRight {
+    margin: 12px 0;
+  }
+}

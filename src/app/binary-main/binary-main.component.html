@@ -1,0 +1,89 @@
+<!-- <div class="container">
+  <input type="radio" id="white" class="radioBox" value="white" [(ngModel)]="colorBack">
+  <input type="radio" id="black" class="radioBox" value="black" [(ngModel)]="colorBack">
+
+</div> -->
+<div class="container">
+  <div class="row">
+    <div class="col-md-3 col-4">
+      <!-- <h3>Add Node</h3> -->
+      <form (submit)="onSubmit()">
+        <div class="mb-3">
+          <label for="addNodeInput" class="form-label">Node Value:</label>
+          <input id="addNodeInput" placeholder="Value to Add" 
+          type="text" class="form-control" [(ngModel)]="rootNode" 
+          name="rootNode" (input)="checkFlag($event)"
+            pattern="^-?\d+$" required>
+          <div class="invalid-feedback">Please enter a valid number.</div>
+        </div>
+        <button type="submit" [disabled]="!addEnableFlag" class="btn btn-primary">Add Node</button>
+      </form>
+    </div>
+    <div class="col-md-3 col-4">
+      <!-- <h3>Delete Node</h3> -->
+      <form (submit)="removeElement()">
+        <div class="mb-3">
+          <label for="deleteNodeInput" class="form-label">Node Value:</label>
+          <input id="deleteNodeInput" placeholder="Value to Remove" type="text" class="form-control" [(ngModel)]="deleteValue" name="deleteValue"
+            pattern="^-?\d+$" required>
+          <div class="invalid-feedback">Please enter a valid number.</div>
+        </div>
+        <button type="submit" class="btn btn-danger">Delete Node</button>
+      </form>
+    </div>
+    <div class="col-md-3 col-4">
+      <!-- <h3>Traversals</h3> -->
+      <div class="mb-3">
+        <label for="traversalSelect" class="form-label">Traversal:</label>
+        <select id="traversalSelect" class="form-select" [(ngModel)]="selectedTraversal" name="selectedTraversal" (change)="displayTraversals()">
+          <option value="" disabled>Select Traversal</option>
+          <option value="inorder">Inorder Traversal</option>
+          <option value="preorder">Preorder Traversal</option>
+          <option value="postorder">Postorder Traversal</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="mb-3">
+        <label for="maxLevelInput" class="form-label">Max Level:</label>
+        <input type="number" pattern="^-?\d+$" name="maxLevel1" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" (ngModelChange)="setMaxLevel()" />
+        <!-- <input type="number" name="maxLevel1" (change)="setMaxLevel($event)" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" /> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="container">
+  <h2 class="tree_heaading ">Binary Search Tree</h2>
+  <div class="loader" *ngIf="root==null && !rootFlag"></div>
+  <h4 *ngIf="rootFlag" class="resultHead">No Tree Found</h4>
+  <div class="tree col-md-12" #treeContainer></div>
+</div>
+
+<div class="container" *ngIf="selectedTraversal != ''">
+  <div *ngIf="selectedTraversal == 'inorder'">In Order :</div>
+  <div *ngIf="selectedTraversal == 'preorder'">Pre Order :</div>
+  <div *ngIf="selectedTraversal == 'postorder'">Post Order :</div>
+  <span *ngFor="let value of traversalList">{{value}} </span>
+</div>
+
+<div class="container">
+  <div class="row btnDelete">
+    <div class="col-md-2">
+      <button  class="btn btn-danger" (click)="clearInput()">Delete Tree</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- <button (click)="displayTraversals()">Display Traversals</button> -->
+
+<!-- <div class="node nodeRoot"></div> -->
