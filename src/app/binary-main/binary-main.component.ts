@@ -1,10 +1,18 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild,ViewEncapsulation } from '@angular/core';
-import { Injectable } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 // import { trigger, state, style, transition, animate } from '@angular/animations';
 
-
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http'; 
-import { timeThursdays } from 'd3';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpErrorResponse,
+} from '@angular/common/http';
 
 // const poppingAnimation = trigger('popping', [
 //   state('in', style({ opacity: 1, transform: 'scale(1)' })),
@@ -18,146 +26,111 @@ import { timeThursdays } from 'd3';
   templateUrl: './binary-main.component.html',
   styleUrls: ['./binary-main.component.scss'],
   // animations: [poppingAnimation],
-  encapsulation: ViewEncapsulation.None//after rendring the tree need to apply styles again
+  encapsulation: ViewEncapsulation.None, //after rendring the tree need to apply styles again
 })
-
-
 export class BinaryMainComponent implements OnInit {
   @ViewChild('treeContainer', { static: true }) treeContainer!: ElementRef;
-  constructor(private http: HttpClient) {
-  }
-    root: Node | null = null;
-    
-//   root:any = {
-//     "value": "50",
-//     "left": {
-//         "value": "30",
-//         "left": {
-//             "value": "22",
-//             "left": null,
-//             "right": null
-//         },
-//         "right": {
-//             "value": "44",
-//             "left": null,
-//             "right": null
-//         }
-//     },
-//     "right": {
-//         "value": "60",
-//         "left": {
-//             "value": "55",
-//             "left": null,
-//             "right": null
-//         },
-//         "right": {
-//             "value": "65",
-//             "left": null,
-//             "right": null
-//         }
-//     }
-// }
-  addEnableFlag:boolean = true
-  rootFlag:boolean = false
+  constructor(private http: HttpClient) {}
+  root: Node | null = null;
+  addEnableFlag: boolean = true;
+  rootFlag: boolean = false;
   isMatchedValue!: boolean;
   rootNode: any = '';
-  deleteValue : any =''
-  selectedTraversal:string = '';
-  traversalList:string[] = []  //to sore and view the traversals
-  maxLevel:number=5;  
-  previousMaxLevel: number=5;
-  colorBack!:string;
-  searchValue!:string;
-
+  deleteValue: any = '';
+  selectedTraversal: string = '';
+  traversalList: string[] = []; //to sore and view the traversals
+  maxLevel: number = 5;
+  previousMaxLevel: number = 5;
+  colorBack!: string;
+  searchValue!: string;
 
   ngOnInit() {
     this.displayTree();
-    this.checkLevel()
-    this.getData()
+    this.checkLevel();
+    this.getData();
   }
 
-  getData(){
-   const data =  this.http.get<any>('https://bst-service.onrender.com/').subscribe((Response)=>{
-    console.log(Response,'res')
-    this.root = Response;
-    
-    this.displayTree();
+  getData() {
+    const data = this.http
+      .get<any>('https://bst-service.onrender.com/')
+      .subscribe((Response) => {
+        console.log(Response, 'res');
+        this.root = Response;
 
-    if(this.root == null){
-      this.rootFlag = true
-    }
-   })
+        this.displayTree();
 
+        if (this.root == null) {
+          this.rootFlag = true;
+        }
+      });
   }
 
-  clearInput(){
-    if(this.root){
-    if(confirm('Are you sure?')){
-      this.root = null
-      this.rootNode= null
-      this.displayTree();
-      this.postIntoJson()
-      this.rootFlag = true
-      console.log(this.root)
-    }}
-    else{
-      alert('No Tree is Existed!')
+  clearInput() {
+    if (this.root) {
+      if (confirm('Are you sure?')) {
+        this.root = null;
+        this.rootNode = null;
+        this.displayTree();
+        this.postIntoJson();
+        this.rootFlag = true;
+        console.log(this.root);
+      }
+    } else {
+      alert('No Tree is Existed!');
     }
   }
   displayTree() {
-
     //to render tree
     const treeEl = this.treeContainer.nativeElement;
     if (treeEl) {
-      treeEl.innerHTML = this.renderTree(this.root);  
+      treeEl.innerHTML = this.renderTree(this.root);
       // this.bindDeleteEvent(treeEl);
     }
   }
 
-  searchElement(){
-    this.highlightTree(this.searchValue)
+  searchElement() {
+    this.highlightTree(this.searchValue);
   }
 
-  highlightTree(value:string){
+  highlightTree(value: string) {
     // const value = "24";/
-    const element = document.querySelector('.nodeElement[nodevalue="' + value + '"]');
+    const element = document.querySelector(
+      '.nodeElement[nodevalue="' + value + '"]'
+    );
     element?.classList.add('hightLight');
-    setTimeout(()=>{
+    setTimeout(() => {
       element?.classList.remove('hightLight');
-    },2000)
+    }, 2000);
   }
 
-  highMin(){
-    this.highlightTree(this.findMinValue(this.root))
+  highMin() {
+    this.highlightTree(this.findMinValue(this.root));
   }
-  highMax(){
-    this.highlightTree(this.findMaxValue(this.root))
+  highMax() {
+    this.highlightTree(this.findMaxValue(this.root));
   }
   deleteElement(value: string): void {
-    console.log('deleting')
+    console.log('deleting');
     this.root = this.deleteNode(this.root, value);
     this.displayTree();
-    
   }
 
-
-  removeElement(){
-    if(this.root){
+  removeElement() {
+    if (this.root) {
       this.root = this.deleteNode(this.root, this.deleteValue);
-      if(this.countLevels(this.root) === 0){
-        this.rootFlag = true
+      if (this.countLevels(this.root) === 0) {
+        this.rootFlag = true;
       }
-      this.postIntoJson()
-      this.deleteValue = '' 
-      this.displayTraversals()
+      this.postIntoJson();
+      this.deleteValue = '';
+      this.displayTraversals();
       this.displayTree();
     }
   }
-  
 
   //adding the node into object with addNode function
   onSubmit(): void {
-    console.log(this.rootNode,'nodes')
+    console.log(this.rootNode, 'nodes');
     const trimmedValue = this.rootNode.trim();
     if (/^-?\d+$/.test(trimmedValue)) {
       const newNode = new Node(this.rootNode);
@@ -165,12 +138,12 @@ export class BinaryMainComponent implements OnInit {
         this.root = newNode;
         this.rootFlag = false;
         console.log('Root node created with value:', this.rootNode);
-        this.postIntoJson()
+        this.postIntoJson();
       } else {
         this.addNode(this.root, newNode);
       }
       this.displayTree();
-      this.displayTraversals()
+      this.displayTraversals();
       this.rootNode = '';
     } else {
       alert('Please enter a valid number');
@@ -181,11 +154,11 @@ export class BinaryMainComponent implements OnInit {
 
   deleteNode(root: Node | null, value: string): Node | null {
     if (!root) {
-      this.displayPopup("Element not found in the tree.");
-      // this.rootFlag = true
+      this.displayPopup('Element not found in the tree.');
+      this.rootFlag = true;
       return root;
     }
-  
+
     // If the deleted value is smaller than the root value got to left tree
     if (value < root.value) {
       root.left = this.deleteNode(root.left, value);
@@ -216,10 +189,10 @@ export class BinaryMainComponent implements OnInit {
         root.right = this.deleteNode(root.right, minValue);
       }
     }
-  
+
     return root;
   }
-  
+
   //find the minimum value in a BST
   findMinValue(root: Node | null): string {
     let minValue = root!.value;
@@ -241,39 +214,42 @@ export class BinaryMainComponent implements OnInit {
   }
 
   // Function to display a popup message
-displayPopup(message: string): void {
-  alert(message);
-}
-
+  displayPopup(message: string): void {
+    alert(message);
+  }
 
   //To display Tree dynamically by creating string and render with html class
-  renderTree(node : Node|null):any{
+  renderTree(node: Node | null): any {
     if (!node) {
       return '';
     }
-  
+
     const { value, left, right } = node;
-  
+
     return `
       <div class="nodeElement" data-clickable onclick="handleclick(${value})" nodeValue="${value}">${value}</div>
       ${
-        left!=null || right!=null
+        left != null || right != null
           ? `
             <div class="nodeBottomLine"></div>
             <div class="nodeChild">
-                ${left ?
-                  `
+                ${
+                  left
+                    ? `
                   <div class="node nodeLeft">
                     ${this.renderTree(left)}
                   </div>
-                  ` : ''
-                }
-                ${right ?
                   `
+                    : ''
+                }
+                ${
+                  right
+                    ? `
                   <div class="node nodeRight">
                     ${this.renderTree(right)}
                   </div>
-                  ` : ''
+                  `
+                    : ''
                 }
             </div>
           `
@@ -287,67 +263,67 @@ displayPopup(message: string): void {
   handleDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement;
     const desiredElement = target.closest('[data-clickable]');
-  
+
     if (desiredElement) {
       console.log('Element is clicked');
       console.log(desiredElement.getAttribute('nodeValue'));
-      if (confirm(`Are you sure you want to delete ${desiredElement.getAttribute('nodeValue')}?`)) {
+      if (
+        confirm(
+          `Are you sure you want to delete ${desiredElement.getAttribute(
+            'nodeValue'
+          )}?`
+        )
+      ) {
         this.deleteValue = desiredElement.getAttribute('nodeValue');
         this.removeElement();
       }
     }
   }
 
-  
-
   setMaxLevel() {
-    const currentLevelOfTree = this.countLevels(this.root)
+    const currentLevelOfTree = this.countLevels(this.root);
     if (this.previousMaxLevel !== undefined && this.maxLevel !== undefined) {
-      if(this.maxLevel > 10){
-        alert("Tree level should be less than 10")
-        this.maxLevel = 10
+      if (this.maxLevel > 10) {
+        alert('Tree level should be less than 10');
+        this.maxLevel = 10;
       }
       if (this.maxLevel > this.previousMaxLevel) {
         console.log('Value is increasing.');
-      } 
-      else if (this.maxLevel < this.previousMaxLevel) {
-        if(this.maxLevel < currentLevelOfTree){
-        alert('you cannot decrease the level while having the current tree')
-          this.maxLevel = currentLevelOfTree
-          console.log(this.maxLevel)
-      }
+      } else if (this.maxLevel < this.previousMaxLevel) {
+        if (this.maxLevel < currentLevelOfTree) {
+          alert('you cannot decrease the level while having the current tree');
+          this.maxLevel = currentLevelOfTree;
+          console.log(this.maxLevel);
+        }
         console.log('Value is decreasing.');
-      } 
-      else {
+      } else {
         console.log('Value remains the same.');
       }
     }
     this.previousMaxLevel = this.maxLevel;
-    if(this.maxLevel >= currentLevelOfTree){
+    if (this.maxLevel >= currentLevelOfTree) {
       this.addEnableFlag = true;
-    }
-    else{
-      this.addEnableFlag = false
+    } else {
+      this.addEnableFlag = false;
     }
   }
-  checkFlag(event :Event){
+  checkFlag(event: Event) {
     const checkValue = (event.target as HTMLInputElement).value;
     // this.addEnableFlag = true;
     const newNode = new Node(checkValue);
-    if(this.root)
-    this.checkButtonFlag(this.root, newNode)
+    if (this.root) this.checkButtonFlag(this.root, newNode);
   }
 
   checkButtonFlag(root: Node, newNode: Node, level: number = 1) {
     if (level >= this.maxLevel) {
       console.log('Maximum levels reached. Cannot add more nodes.');
-       this.addEnableFlag = false;
+      this.addEnableFlag = false;
       return;
     }
-  
+
     if (parseInt(newNode.value) < parseInt(root.value)) {
       if (!root.left) {
-        this.addEnableFlag = true
+        this.addEnableFlag = true;
         //root.left = newNode;
         //console.log('Added node with value', newNode.value, 'to the left of', root.value);
       } else {
@@ -355,7 +331,7 @@ displayPopup(message: string): void {
       }
     } else if (parseInt(newNode.value) > parseInt(root.value)) {
       if (!root.right) {
-        this.addEnableFlag = true
+        this.addEnableFlag = true;
         //root.right = newNode;
         //console.log('Added node with value', newNode.value, 'to the right of', root.value);
       } else {
@@ -366,16 +342,15 @@ displayPopup(message: string): void {
     }
   }
 
-
   //adding nodes to left or right
   addNode(root: Node, newNode: Node, level: number = 1) {
     if (level >= this.maxLevel) {
       // console.log('Maximum levels reached. Cannot add more nodes.');
-      alert('Reached Max Level')
+      alert('Reached Max Level');
       // this.addEnableFlag = false;
       return;
     }
-  
+
     if (parseInt(newNode.value) < parseInt(root.value)) {
       if (!root.left) {
         root.left = newNode;
@@ -397,35 +372,32 @@ displayPopup(message: string): void {
     }
   }
 
-  postIntoJson(){
-    console.log(this.root,'data')
-    return this.http.post<any>('https://bst-service.onrender.com/', this.root).subscribe(Respons => {
-      console.log(Respons,'res')
-    })
+  postIntoJson() {
+    console.log(this.root, 'data');
+    return this.http
+      .post<any>('https://bst-service.onrender.com/', this.root)
+      .subscribe((Respons) => {
+        console.log(Respons, 'res');
+      });
   }
-  
-  
-
 
   //BST Traversals
   displayTraversals() {
     if (this.root) {
-      console.log(this.root)
+      console.log(this.root);
 
-      if(this.selectedTraversal == 'inorder'){
+      if (this.selectedTraversal == 'inorder') {
         console.log('Inorder Traversal:');
-        this.traversalList = []
+        this.traversalList = [];
         this.inorderTraversal(this.root);
         console.log(this.root);
-      }
-      else if(this.selectedTraversal == 'preorder'){
+      } else if (this.selectedTraversal == 'preorder') {
         console.log('Preorder Traversal:');
-        this.traversalList = []
+        this.traversalList = [];
         this.preorderTraversal(this.root);
-      }
-      else if(this.selectedTraversal == 'postorder'){
+      } else if (this.selectedTraversal == 'postorder') {
         console.log('Postorder Traversal:');
-        this.traversalList = []
+        this.traversalList = [];
         this.postorderTraversal(this.root);
       }
     } else {
@@ -434,8 +406,7 @@ displayPopup(message: string): void {
     }
   }
 
-  
-//to display the tree in console
+  //to display the tree in console
   // generateTreeStructure(node: Node | null, level: number, position: number) {
   //   if (node) {
   //     this.treeStructure.push({ value: node.value, level, position });
@@ -443,13 +414,12 @@ displayPopup(message: string): void {
   //     this.generateTreeStructure(node.right, level + 1, position * 2 + 1);
   //   }
   // }
- 
 
   inorderTraversal(node: Node | null) {
     if (node) {
       this.inorderTraversal(node.left);
       console.log(node.value);
-      this.traversalList.push(node.value)
+      this.traversalList.push(node.value);
       this.inorderTraversal(node.right);
     }
   }
@@ -457,7 +427,7 @@ displayPopup(message: string): void {
   preorderTraversal(node: Node | null) {
     if (node) {
       console.log(node.value);
-      this.traversalList.push(node.value)
+      this.traversalList.push(node.value);
       this.preorderTraversal(node.left);
       this.preorderTraversal(node.right);
     }
@@ -468,13 +438,13 @@ displayPopup(message: string): void {
       this.postorderTraversal(node.left);
       this.postorderTraversal(node.right);
       console.log(node.value);
-      this.traversalList.push(node.value)
+      this.traversalList.push(node.value);
     }
   }
 
   //To check the current level of tree
-  checkLevel(){
-    console.log('level of tree is : ',this.countLevels(this.root))
+  checkLevel() {
+    console.log('level of tree is : ', this.countLevels(this.root));
   }
 
   countLevels(node: Node | null, level: number = 0): number {
@@ -489,22 +459,11 @@ displayPopup(message: string): void {
   }
 }
 
-
-
-// interface TreeNode {
-//   value: string;
-//   level: number;
-//   position: number;
-// }
-
-
-//Node Structure
 class Node {
   constructor(public value: string) {
     this.left = null;
     this.right = null;
   }
-
   left: Node | null;
   right: Node | null;
 }

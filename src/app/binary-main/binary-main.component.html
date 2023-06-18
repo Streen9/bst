@@ -10,13 +10,26 @@
       <form (submit)="onSubmit()">
         <div class="mb-3">
           <label for="addNodeInput" class="form-label">Add Node :</label>
-          <input id="addNodeInput" placeholder="Value to Add" 
-          type="text" class="form-control" [(ngModel)]="rootNode" 
-          name="rootNode" (input)="checkFlag($event)"
-            pattern="^-?\d+$" required>
+          <input
+            id="addNodeInput"
+            placeholder="Value to Add"
+            type="text"
+            class="form-control"
+            [(ngModel)]="rootNode"
+            name="rootNode"
+            (input)="checkFlag($event)"
+            pattern="^-?\d+$"
+            required
+          />
           <div class="invalid-feedback">Please enter a valid number.</div>
         </div>
-        <button type="submit" [disabled]="!addEnableFlag" class="btn btn-primary">Add Node</button>
+        <button
+          type="submit"
+          [disabled]="!addEnableFlag"
+          class="btn btn-primary"
+        >
+          Add Node
+        </button>
       </form>
     </div>
     <div class="col-md-3 col-4">
@@ -24,8 +37,16 @@
       <form (submit)="removeElement()">
         <div class="mb-3">
           <label for="deleteNodeInput" class="form-label">Remove Node :</label>
-          <input id="deleteNodeInput" placeholder="Value to Remove" type="text" class="form-control" [(ngModel)]="deleteValue" name="deleteValue"
-            pattern="^-?\d+$" required>
+          <input
+            id="deleteNodeInput"
+            placeholder="Value to Remove"
+            type="text"
+            class="form-control"
+            [(ngModel)]="deleteValue"
+            name="deleteValue"
+            pattern="^-?\d+$"
+            required
+          />
           <div class="invalid-feedback">Please enter a valid number.</div>
         </div>
         <button type="submit" class="btn btn-danger">Delete Node</button>
@@ -35,9 +56,19 @@
       <div class="mb-3">
         <form (submit)="searchElement()">
           <div class="mb-3">
-            <label for="deleteNodeInput" class="form-label">Search Node :</label>
-            <input id="deleteNodeInput" placeholder="Value to Search" type="text" class="form-control" [(ngModel)]="searchValue" name="searchValue"
-              pattern="^-?\d+$" required>
+            <label for="deleteNodeInput" class="form-label"
+              >Search Node :</label
+            >
+            <input
+              id="deleteNodeInput"
+              placeholder="Value to Search"
+              type="text"
+              class="form-control"
+              [(ngModel)]="searchValue"
+              name="searchValue"
+              pattern="^-?\d+$"
+              required
+            />
             <div class="invalid-feedback">Please enter a valid number.</div>
           </div>
           <button type="submit" class="btn btn-secondary">Search Node</button>
@@ -48,7 +79,13 @@
       <!-- <h3>Traversals</h3> -->
       <div class="mb-3">
         <label for="traversalSelect" class="form-label">Traversal:</label>
-        <select id="traversalSelect" class="form-select" [(ngModel)]="selectedTraversal" name="selectedTraversal" (change)="displayTraversals()">
+        <select
+          id="traversalSelect"
+          class="form-select"
+          [(ngModel)]="selectedTraversal"
+          name="selectedTraversal"
+          (change)="displayTraversals()"
+        >
           <option value="" disabled>Select Traversal</option>
           <option value="inorder">Inorder Traversal</option>
           <option value="preorder">Preorder Traversal</option>
@@ -56,35 +93,53 @@
         </select>
       </div>
     </div>
-    
+
     <div class="col-md-3 col-8">
       <div class="mb-3">
         <label for="maxLevelInput" class="form-label">Max Level:</label>
-        <input type="number" pattern="^-?\d+$" name="maxLevel1" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" (ngModelChange)="setMaxLevel()" />
+        <input
+          type="number"
+          pattern="^-?\d+$"
+          name="maxLevel1"
+          class="form-control"
+          id="maxLevelInput"
+          [(ngModel)]="maxLevel"
+          (ngModelChange)="setMaxLevel()"
+        />
         <!-- <input type="number" name="maxLevel1" (change)="setMaxLevel($event)" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" /> -->
       </div>
     </div>
     <div class="col-md-2 col-4">
       <div class="mb-3">
         <label class="form-label">Find Min : </label>
-        <button class="btn btn-outline-success" style="width: 80%;" (click)="highMin()">Min</button>
+        <button
+          class="btn btn-outline-success"
+          style="width: 80%"
+          (click)="highMin()"
+        >
+          Min
+        </button>
       </div>
     </div>
     <div class="col-md-2 col-4">
       <div class="mb-3">
         <label class="form-label">Find Max : </label>
-        <button class="btn btn-outline-success" style="width: 80%;" type="button" (click)="highMax()">Max</button>
+        <button
+          class="btn btn-outline-success"
+          style="width: 80%"
+          type="button"
+          (click)="highMax()"
+        >
+          Max
+        </button>
       </div>
     </div>
   </div>
 </div>
 
-
-
-
 <div class="container">
-  <h2 class="tree_heaading ">Binary Search Tree</h2>
-  <div class="loader" *ngIf="root==null && rootFlag === false"></div>
+  <h2 class="tree_heaading">Binary Search Tree</h2>
+  <div class="loader" *ngIf="root == null && rootFlag === false"></div>
   <h4 *ngIf="rootFlag" class="resultHead">No Tree Found</h4>
   <div class="tree col-md-12" #treeContainer></div>
 </div>
@@ -93,25 +148,19 @@
   <div *ngIf="selectedTraversal == 'inorder'" class="order">In Order :</div>
   <div *ngIf="selectedTraversal == 'preorder'" class="order">Pre Order :</div>
   <div *ngIf="selectedTraversal == 'postorder'" class="order">Post Order :</div>
-  <span *ngFor="let value of traversalList" ><p class="orderValue">{{value}}</p> </span>
+  <span *ngFor="let value of traversalList"
+    ><p class="orderValue">{{ value }}</p>
+  </span>
 </div>
 
 <div class="container">
   <div class="row btnDelete">
     <div class="col-md-3 col-4">
-      <button  class="btn btn-danger" (click)="clearInput()">Delete Tree</button>
+      <button class="btn btn-danger" (click)="clearInput()">Delete Tree</button>
     </div>
   </div>
 </div>
 
-
-
-
-
-
-
-
 <!-- <button (click)="displayTraversals()">Display Traversals</button> -->
 
 <!-- <div class="node nodeRoot"></div> -->
-

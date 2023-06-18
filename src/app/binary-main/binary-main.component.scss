@@ -1,15 +1,16 @@
-html,body{
+html,
+body {
   background-color: #0f0f0f;
   color: #fff;
   margin-top: 10px;
 }
 
-.hightLight{
+.hightLight {
   font-weight: 700;
   font-size: 20px;
   /* color: black; */
   /* background-color: white; */
-  animation: slowMotion 2s linear infinite; 
+  animation: slowMotion 2s linear infinite;
   box-shadow: 0 0 40px #fff;
 }
 @keyframes slowMotion {
@@ -23,25 +24,25 @@ html,body{
     transform: scale(1);
   }
 }
-.resultHead{
+.resultHead {
   text-align: center;
 }
 
-.orderContainer{
+.orderContainer {
   text-align: center;
 }
-.order{
+.order {
   font-size: 22px;
 }
-.orderValue{
+.orderValue {
   display: inline;
   padding: 3px;
   font-weight: 600;
   font-size: 22px;
-  font-family:'Times New Roman', Times, serif
+  font-family: "Times New Roman", Times, serif;
 }
-.orderValue::before{
-  content: '->';
+.orderValue::before {
+  content: "->";
 }
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
@@ -60,20 +61,24 @@ html,body{
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-.tree_heaading{
+.tree_heaading {
   text-align: center;
   margin-top: 20px;
 }
-.btnDelete{
+.btnDelete {
   justify-content: center;
   align-items: center;
   text-align: center;
   margin-top: 20px;
 }
-.tree{
+.tree {
   margin-top: 40px;
   display: flex;
   justify-content: center;
@@ -81,7 +86,7 @@ html,body{
   align-items: center;
   position: relative;
 }
-.node{
+.node {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,8 +96,8 @@ html,body{
   max-width: max-content;
 }
 // except .noderoot class
-.node:not(.nodeRoot) .nodeElement::before{
-  content: '';
+.node:not(.nodeRoot) .nodeElement::before {
+  content: "";
   height: 12px;
   width: 1px;
   background-color: #fff;
@@ -103,21 +108,21 @@ html,body{
   top: -12px;
   margin: auto;
 }
-.tree>.nodeElement::after{
+.tree > .nodeElement::after {
   content: "i'm root";
   position: relative;
   color: #fff;
   display: block;
   left: 60px;
   width: 60px;
-  top:-30px;
+  top: -30px;
   // transform: rotateX(30deg);
 }
-#colorAdd{
+#colorAdd {
   background-color: white;
   color: black;
 }
-.nodeElement{
+.nodeElement {
   width: 60px;
   height: 60px;
   background-color: #078513;
@@ -135,22 +140,22 @@ html,body{
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
-.nodeElement:hover{
+.nodeElement:hover {
   overflow: visible;
 }
-.nodeLeft{
+.nodeLeft {
   margin-right: 20px;
 }
-.nodeRight{
+.nodeRight {
   margin-left: 20px;
 }
-.nodeChild{
+.nodeChild {
   display: flex;
   padding: 12px;
   border-top: 1px solid #fff;
 }
 
-.nodeBottomLine{
+.nodeBottomLine {
   height: 12px;
   width: 1px;
   background-color: #fff;
@@ -160,17 +165,15 @@ html,body{
   .tree {
     flex-direction: column;
     // align-items: flex-start;
-
   }
 
   .node:not(.nodeRoot) .nodeElement::before {
     // display: none;
   }
 
-  .nodeChild{
+  .nodeChild {
     padding: 0;
   }
-  
 
   .tree > .nodeElement::after {
     left: 50px;
