@@ -130,6 +130,10 @@ html,body{
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  // remove Text selection
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 .nodeElement:hover{
   overflow: visible;
