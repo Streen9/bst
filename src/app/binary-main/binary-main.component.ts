@@ -1,13 +1,26 @@
 import { Component, ElementRef, OnInit, ViewChild,ViewEncapsulation } from '@angular/core';
 import { Injectable } from '@angular/core';
+// import { trigger, state, style, transition, animate } from '@angular/animations';
+
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http'; 
+
+// const poppingAnimation = trigger('popping', [
+//   state('in', style({ opacity: 1, transform: 'scale(1)' })),
+//   transition(':enter', [
+//     style({ transform: 'scale(0)' }),
+//     animate('200ms ease-out', style({ transform: 'scale(1)' }))
+//   ]),
+// ]);
 @Component({
   selector: 'app-binary-main',
   templateUrl: './binary-main.component.html',
   styleUrls: ['./binary-main.component.scss'],
+  // animations: [poppingAnimation],
   encapsulation: ViewEncapsulation.None//after rendring the tree need to apply styles again
 })
+
+
 export class BinaryMainComponent implements OnInit {
   @ViewChild('treeContainer', { static: true }) treeContainer!: ElementRef;
   constructor(private http: HttpClient) {}

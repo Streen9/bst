@@ -9,7 +9,7 @@
       <!-- <h3>Add Node</h3> -->
       <form (submit)="onSubmit()">
         <div class="mb-3">
-          <label for="addNodeInput" class="form-label">Node Value:</label>
+          <label for="addNodeInput" class="form-label">Add Node :</label>
           <input id="addNodeInput" placeholder="Value to Add" 
           type="text" class="form-control" [(ngModel)]="rootNode" 
           name="rootNode" (input)="checkFlag($event)"
@@ -23,7 +23,7 @@
       <!-- <h3>Delete Node</h3> -->
       <form (submit)="removeElement()">
         <div class="mb-3">
-          <label for="deleteNodeInput" class="form-label">Node Value:</label>
+          <label for="deleteNodeInput" class="form-label">Remove Node :</label>
           <input id="deleteNodeInput" placeholder="Value to Remove" type="text" class="form-control" [(ngModel)]="deleteValue" name="deleteValue"
             pattern="^-?\d+$" required>
           <div class="invalid-feedback">Please enter a valid number.</div>
@@ -64,10 +64,10 @@
 </div>
 
 <div class="container" *ngIf="selectedTraversal != ''">
-  <div *ngIf="selectedTraversal == 'inorder'">In Order :</div>
-  <div *ngIf="selectedTraversal == 'preorder'">Pre Order :</div>
-  <div *ngIf="selectedTraversal == 'postorder'">Post Order :</div>
-  <span *ngFor="let value of traversalList">{{value}} </span>
+  <div *ngIf="selectedTraversal == 'inorder'" >In Order :</div>
+  <div *ngIf="selectedTraversal == 'preorder'" >Pre Order :</div>
+  <div *ngIf="selectedTraversal == 'postorder'" ]>Post Order :</div>
+  <span *ngFor="let value of traversalList" >{{value}} </span>
 </div>
 
 <div class="container">

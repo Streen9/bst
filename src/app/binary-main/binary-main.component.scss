@@ -15,8 +15,12 @@ html,body{
   height: 120px;
   position: relative;
   text-align: center;
-  left: 40%;
   animation: spin 2s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 47%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 @keyframes spin {
