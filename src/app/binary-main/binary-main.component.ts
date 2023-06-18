@@ -406,8 +406,10 @@ export class BinaryMainComponent implements OnInit {
 
   /**
    * addNode(root :Node, newNode:Node, level:number =1 )
-   *  
-   *
+   * adding the node by checking the level of tree if it reached it shows popup which is reacched max level
+   * if not it checking wheather the value is smaller ot larger
+   * if smaller it calling addnode with left root
+   * if larger it caling addnode with rightroot 
    */
   addNode(root: Node, newNode: Node, level: number = 1) {
     if (level >= this.maxLevel) {
