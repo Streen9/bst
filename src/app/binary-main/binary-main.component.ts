@@ -310,7 +310,10 @@ searchKey = 24;
   setMaxLevel() {
     const currentLevelOfTree = this.countLevels(this.root)
     if (this.previousMaxLevel !== undefined && this.maxLevel !== undefined) {
-      
+      if(this.maxLevel > 10){
+        alert("Tree level should be less than 10")
+        this.maxLevel = 10
+      }
       if (this.maxLevel > this.previousMaxLevel) {
         console.log('Value is increasing.');
       } 

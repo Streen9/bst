@@ -89,16 +89,16 @@
   <div class="tree col-md-12" #treeContainer></div>
 </div>
 
-<div class="container" *ngIf="selectedTraversal != ''">
-  <div *ngIf="selectedTraversal == 'inorder'" >In Order :</div>
-  <div *ngIf="selectedTraversal == 'preorder'" >Pre Order :</div>
-  <div *ngIf="selectedTraversal == 'postorder'" ]>Post Order :</div>
-  <span *ngFor="let value of traversalList" >{{value}} </span>
+<div class="container orderContainer" *ngIf="selectedTraversal != ''">
+  <div *ngIf="selectedTraversal == 'inorder'" class="order">In Order :</div>
+  <div *ngIf="selectedTraversal == 'preorder'" class="order">Pre Order :</div>
+  <div *ngIf="selectedTraversal == 'postorder'" ]class="order">Post Order :</div>
+  <span *ngFor="let value of traversalList" ><p class="orderValue">{{value}}</p> </span>
 </div>
 
 <div class="container">
   <div class="row btnDelete">
-    <div class="col-md-2">
+    <div class="col-md-3 col-4">
       <button  class="btn btn-danger" (click)="clearInput()">Delete Tree</button>
     </div>
   </div>
