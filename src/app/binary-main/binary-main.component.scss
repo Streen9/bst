@@ -4,6 +4,25 @@ html,body{
   margin-top: 10px;
 }
 
+.hightLight{
+  font-weight: 700;
+  font-size: 20px;
+  /* color: black; */
+  /* background-color: white; */
+  animation: slowMotion 2s linear infinite; 
+  box-shadow: 0 0 40px #fff;
+}
+@keyframes slowMotion {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2); /* Adjust the scale factor as needed */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 .resultHead{
   text-align: center;
 }

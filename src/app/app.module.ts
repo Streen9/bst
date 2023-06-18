@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { BinaryMainComponent } from './binary-main/binary-main.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 @NgModule({
   declarations: [
     AppComponent,
     BinaryMainComponent
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 
 
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http'; 
+import { timeThursdays } from 'd3';
 
 // const poppingAnimation = trigger('popping', [
 //   state('in', style({ opacity: 1, transform: 'scale(1)' })),
@@ -23,8 +24,10 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 
 export class BinaryMainComponent implements OnInit {
   @ViewChild('treeContainer', { static: true }) treeContainer!: ElementRef;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
     root: Node | null = null;
+    
 //   root:any = {
 //     "value": "50",
 //     "left": {
@@ -56,6 +59,7 @@ export class BinaryMainComponent implements OnInit {
 // }
   addEnableFlag:boolean = true
   rootFlag:boolean = false
+  isMatchedValue!: boolean;
   rootNode: any = '';
   deleteValue : any =''
   selectedTraversal:string = '';
@@ -63,6 +67,7 @@ export class BinaryMainComponent implements OnInit {
   maxLevel:number=5;  
   previousMaxLevel: number=5;
   colorBack!:string;
+  searchValue!:string;
   // colorWhite:boolean = false
   // treeStructure: TreeNode[] = [];
 
@@ -72,6 +77,7 @@ export class BinaryMainComponent implements OnInit {
     this.displayTree();
     this.checkLevel()
     this.getData()
+    // this.highlightTree()
     // this.setMaxLevel(); 
   }
 
@@ -81,6 +87,7 @@ export class BinaryMainComponent implements OnInit {
     this.root = Response;
     
     this.displayTree();
+    // this.highlightTree()
     //this.maxLevel = this.countLevels(this.root);
     if(this.root == null){
       this.rootFlag = true
@@ -106,6 +113,26 @@ export class BinaryMainComponent implements OnInit {
       // this.bindDeleteEvent(treeEl);
     }
   }
+
+  searchElement(){
+    this.highlightTree(this.searchValue)
+  }
+
+  highlightTree(value:string){
+    // const value = "24";/
+    const element = document.querySelector('.nodeElement[nodevalue="' + value + '"]');
+    element?.classList.add('hightLight');
+    setTimeout(()=>{
+      element?.classList.remove('hightLight');
+    },2000)
+  }
+
+  highMin(){
+    this.highlightTree(this.findMinValue(this.root))
+  }
+  highMax(){
+    this.highlightTree(this.findMaxValue(this.root))
+  }
   deleteElement(value: string): void {
     console.log('deleting')
     this.root = this.deleteNode(this.root, value);
@@ -130,6 +157,7 @@ export class BinaryMainComponent implements OnInit {
     this.displayTraversals()
     this.displayTree();
   }
+  
 
   //adding the node into object with addNode function
   onSubmit(): void {
@@ -220,6 +248,8 @@ displayPopup(message: string): void {
   // Replace this with your own popup implementation
   alert(message);
 }
+
+
   
 
   //To display Tree dynamically by creating string and render with html class
@@ -231,7 +261,7 @@ displayPopup(message: string): void {
     const { value, left, right } = node;
   
     return `
-      <div class="nodeElement" >${value}</div>
+      <div class="nodeElement" nodeValue="${value}">${value}</div>
       ${
         left!=null || right!=null
           ? `
@@ -257,6 +287,10 @@ displayPopup(message: string): void {
       }
     `;
   }
+
+searchKey = 24;
+
+  
   // setMaxLevel(event:Event){
   //   const currentValue = parseInt((event.target as HTMLInputElement).value);
   // this.previousMaxLevel = this.maxLevel;

@@ -32,6 +32,19 @@
       </form>
     </div>
     <div class="col-md-3 col-4">
+      <div class="mb-3">
+        <form (submit)="searchElement()">
+          <div class="mb-3">
+            <label for="deleteNodeInput" class="form-label">Search Node :</label>
+            <input id="deleteNodeInput" placeholder="Value to Search" type="text" class="form-control" [(ngModel)]="searchValue" name="searchValue"
+              pattern="^-?\d+$" required>
+            <div class="invalid-feedback">Please enter a valid number.</div>
+          </div>
+          <button type="submit" class="btn btn-secondary">Search Node</button>
+        </form>
+      </div>
+    </div>
+    <div class="col-md-3 col-4">
       <!-- <h3>Traversals</h3> -->
       <div class="mb-3">
         <label for="traversalSelect" class="form-label">Traversal:</label>
@@ -43,6 +56,18 @@
         </select>
       </div>
     </div>
+    <div class="col-md-2">
+      <div class="mb-3">
+        <label class="form-label">Find Min : </label>
+        <button class="btn btn-outline-success" style="width: 80%;" (click)="highMin()">Min</button>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="mb-3">
+        <label class="form-label">Find Max : </label>
+        <button class="btn btn-outline-success" style="width: 80%;" type="button" (click)="highMax()">Min</button>
+      </div>
+    </div>
     <div class="col-md-3">
       <div class="mb-3">
         <label for="maxLevelInput" class="form-label">Max Level:</label>
@@ -50,6 +75,7 @@
         <!-- <input type="number" name="maxLevel1" (change)="setMaxLevel($event)" class="form-control" id="maxLevelInput" [(ngModel)]="maxLevel" /> -->
       </div>
     </div>
+    
   </div>
 </div>
 
